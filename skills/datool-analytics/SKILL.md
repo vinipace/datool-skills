@@ -5,6 +5,8 @@ description: Query Datool semantic metrics, inspect dashboard and saved-view res
 
 # Query and export Datool data
 
+CLI prerequisite: `@datool/cli >=0.2.0`. Run `datool --version` and `datool doctor --json` first. Use browser login (`datool auth login`) or the API-key configuration described in the [Datool setup skill](../datool/SKILL.md).
+
 Use connected MCP or CLI with DATOOL_BASE_URL, DATOOL_PROJECT_ID and DATOOL_API_KEY in the environment. Inspect inputs/scopes with `datool agent tools <operation>`. Metrics need metrics:read; dashboard previews also need dashboards:read. Saved-view data requires views:read, traces:read and evals:read.
 
 ```sh

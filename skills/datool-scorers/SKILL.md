@@ -5,6 +5,8 @@ description: Create, test and revise Datool JavaScript or LLM scorers against re
 
 # Develop Datool scorers
 
+CLI prerequisite: `@datool/cli >=0.2.0`. Run `datool --version` and `datool doctor --json` first. Use browser login (`datool auth login`) or the API-key configuration described in the [Datool setup skill](../datool/SKILL.md).
+
 Use connected MCP or CLI with DATOOL_BASE_URL, DATOOL_PROJECT_ID and DATOOL_API_KEY in the environment. Inspect schemas with `datool agent tools <operation>`. Read configuration/versions with scorers:read; saving needs scorers:write. test_scorer currently requires scorers:read, scorers:write, traces:read and datasets:read, even without optional dataset context.
 
 Define what passes and which evidence is required before choosing the scorer. For an exact JSON criterion, adapt [assets/exact-json.json](assets/exact-json.json), a create_scorer input that compares objects independently of key order while preserving array order. It is an example criterion, not a calibrated quality judge.

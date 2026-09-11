@@ -47,17 +47,22 @@ Skills contain instructions and examples. They require an existing Datool deploy
 
 For MCP, connect your agent to your deployment's `/api/mcp` endpoint and complete its OAuth project selection and permission consent. Use `describe_agent_operations` to inspect available operations.
 
-For CLI access, install the Datool CLI provided for your deployment and configure:
+For CLI access, install `@datool/cli >=0.2.0` and configure:
 
 ```sh
+npm install --save-dev @datool/cli@^0.2.0
 export DATOOL_BASE_URL=https://your-datool-host
 export DATOOL_PROJECT_ID=your-project-id
 # Set DATOOL_API_KEY through your environment or secret manager.
-datool agent tools
+npx datool --version
+npx datool doctor --json
+npx datool agent tools
 datool agent tools start_eval_run
 ```
 
-This pack requires the CLI's `agent` commands and the server's `POST /api/agent/:operation` API. If discovery is unavailable, use a deployment/CLI release containing the agent foundations before following these workflows. A missing MCP tool can also mean the token lacks the necessary consented scopes.
+For interactive use, `npx datool auth login --datool <host>` opens browser organization/project selection and stores credentials in the OS credential store. Agents and CI can continue using API-key environment variables. The CLI loads project-root `.env`, then `.env.local`; shell variables win. `--env-file <path>` replaces the automatic files, and `--no-env` opts out. Keep credential files out of version control. Normal `npx datool` and `bunx datool` use Node; direct Bun execution requires `bun --no-env-file <datool.js> ...`.
+
+Version 0.1.0 does not include the advertised agent commands. This pack requires the CLI's `agent` commands and the server's `POST /api/agent/:operation` API. If discovery is unavailable, use a deployment/CLI release containing the agent foundations before following these workflows. Doctor and CLI OAuth require server CLI protocol 1. Doctor distinguishes an old server from invalid credentials (401) and valid credentials with insufficient permissions (403). A missing MCP tool can also mean the token lacks the necessary consented scopes.
 
 A completed evaluation reports technical execution; use its quality gate to determine whether it passes. Connected app runs and LLM scorers can incur costs. Each skill documents its permissions, pagination, limits and reproducibility requirements.
 
@@ -75,9 +80,10 @@ CLI credentials, MCP configuration and application data are not included in this
 
 ```sh
 node scripts/validate.mjs
+node scripts/test-cli-distribution.mjs 0.2.0
 ```
 
-The validation workflow checks pack structure, local references, JSON assets and skill discovery through the installer. It does not run your application or call LLM providers.
+The validation workflow checks pack structure, local references, JSON assets and installer discovery. It also installs the exact published npm CLI in a clean directory and exercises agent discovery, trace reads, env precedence and diagnostics under Node and Bun against a local HTTP fixture. It does not use workspace CLI source, run your application, or call LLM providers.
 
 Keep complete skill folders together when updating them so examples and links remain available. Check command and permission changes against the compatible Datool server before publishing updates.
 

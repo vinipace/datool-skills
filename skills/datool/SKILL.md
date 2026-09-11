@@ -5,7 +5,9 @@ description: Use Datool MCP or CLI for cross-workflow AI debugging and evaluatio
 
 # Datool
 
-Prefer connected Datool MCP tools. For CLI access, set DATOOL_BASE_URL, DATOOL_PROJECT_ID and DATOOL_API_KEY in the environment; keep credentials out of files and reports. Inspect the current contract with `datool agent tools` or `datool agent tools <operation>`. Execute any operation with `datool agent call <operation> --input @input.json`. The equivalent MCP discovery tool is `describe_agent_operations`.
+Prefer connected Datool MCP tools. CLI workflows require `@datool/cli >=0.2.0`; check `datool --version`, then `datool doctor --json` before diagnosing a missing command or failed connection. Upgrade older installations with `npm install --save-dev @datool/cli@^0.2.0` in the target project. Inspect the current contract with `datool agent tools` or `datool agent tools <operation>`. Execute any operation with `datool agent call <operation> --input @input.json`. The equivalent MCP discovery tool is `describe_agent_operations`.
+
+For agents/CI, supply DATOOL_BASE_URL, DATOOL_PROJECT_ID and DATOOL_API_KEY through the environment or an uncommitted project env file. For interactive use, `datool auth login --datool <host>` opens browser organization/project selection and saves tokens in the OS credential store. API keys take precedence. The CLI loads project-root `.env`, then `.env.local`; shell values win. `--env-file <path>` replaces those files; `--no-env` disables loading. Normal `npx datool`/`bunx datool` uses Node; direct Bun execution requires `bun --no-env-file <datool.js> ...`. Keep credentials out of commits, command arguments and reports. Doctor distinguishes incompatible servers, invalid credentials (401), and missing permissions (403, including traces:read).
 
 MCP tokens are bound to a project and consented scopes. Missing tools can mean insufficient consent; an unavailable operation can also mean the installed CLI or deployed server predates these foundations. Inspect discovery and configuration before claiming that a capability is absent. Use returned IDs and schemas, not guessed endpoints.
 

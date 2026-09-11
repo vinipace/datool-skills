@@ -5,6 +5,8 @@ description: Run Datool evaluations, replay connected apps, re-score frozen evid
 
 # Run and gate Datool evaluations
 
+CLI prerequisite: `@datool/cli >=0.2.0`. Run `datool --version` and `datool doctor --json` first. Use browser login (`datool auth login`) or the API-key configuration described in the [Datool setup skill](../datool/SKILL.md).
+
 Use connected MCP or CLI with DATOOL_BASE_URL, DATOOL_PROJECT_ID and DATOOL_API_KEY in the environment. Inspect the live schema with `datool agent tools start_eval_run`. Reads, comparisons and gates require evals:read. Starting requires evals:write, evals:read, traces:read, datasets:read and scorers:read.
 
 Choose the execution mode from the user's task:

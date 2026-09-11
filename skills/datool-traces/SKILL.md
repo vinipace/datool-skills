@@ -5,6 +5,8 @@ description: Investigate Datool trace failures, latency, spans, scores and multi
 
 # Investigate Datool traces
 
+CLI prerequisite: `@datool/cli >=0.2.0`. Run `datool --version` and `datool doctor --json` first. Use browser login (`datool auth login`) or the API-key configuration described in the [Datool setup skill](../datool/SKILL.md).
+
 Use connected MCP tools, or CLI with DATOOL_BASE_URL, DATOOL_PROJECT_ID and DATOOL_API_KEY in the environment. Discover exact inputs with `datool agent tools <operation>`; `datool agent call <operation> --input @input.json` exposes the same operations. These reads require traces:read.
 
 Start with a bounded time window, filter and small page:
