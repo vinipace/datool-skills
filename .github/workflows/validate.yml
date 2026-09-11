@@ -1,0 +1,25 @@
+name: Validate skills
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node scripts/validate.mjs
+      - name: Verify installer discovery
+        env:
+          DISABLE_TELEMETRY: "1"
+        run: npx --yes skills@1.5.25 add ./skills --list

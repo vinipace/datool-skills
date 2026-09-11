@@ -1,0 +1,4 @@
+interface:
+  display_name: "Datool"
+  short_description: "Discover and combine Datool agent workflows"
+  default_prompt: "Use $datool to investigate an AI regression and choose the relevant Datool workflows."

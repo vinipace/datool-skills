@@ -1,0 +1,4 @@
+interface:
+  display_name: "Datool Analytics"
+  short_description: "Query metrics and export bounded Datool data"
+  default_prompt: "Use $datool-analytics to inspect project metrics and export the supporting data."
