@@ -40,3 +40,7 @@ For inline previews, replace scorerId/versionId with scorer. Dataset context req
 Select requiredEvidence as invocation, internal or complete according to the criterion; missing required evidence must not become an automatic pass. Return a passed classification or configure a numeric threshold. Keep allowSkip intentional because gates reject skipped results by default.
 
 Preview known passing, failing and missing-context cases. Keep a held-out evaluation set when assessing judge quality; successful execution or agreement with another model is not human validation. Record immutable version IDs so later evaluations reproduce the tested scorer.
+
+## Calibration and iteration
+
+Use the [evaluation improvement loop](../datool-evaluations/SKILL.md). Calibration uses ordinary dataset cases, declared expected judgments and saved evaluations. Known negative controls should be rejected; do not demand that every calibration case pass a quality gate. Verify claims against source evidence, separate false passes/false failures from runtime errors and retain reference provenance. After changing a judge, re-score the same outputs via sourceRunId and inspect configurationChanges. Baseline quality gates require the exact same judge versions. Latest is the normal selection; explicit pins are for reproducibility or controlled comparisons.
