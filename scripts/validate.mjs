@@ -49,5 +49,5 @@ for (const path of [...files, resolve(root, "README.md")]) {
     assert((await lstat(destination)).isFile(), `Broken link: ${link}`);
   }
 }
-assert.equal(assets, 6);
+assert.equal(assets, 7);
 console.log(`PASS ${names.length} skills, ${assets} JSON starters and all local links`);

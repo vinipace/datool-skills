@@ -32,14 +32,14 @@ Install an individual workflow with `--skill datool-traces`, for example. Instal
 
 | Skill | Purpose |
 | --- | --- |
-| [datool](skills/datool/SKILL.md) | Discover operations and combine workflows |
+| [datool](skills/datool/SKILL.md) | Discover operations, integrate managed prompts and combine workflows |
 | [datool-traces](skills/datool-traces/SKILL.md) | Investigate traces, spans, sessions and scores |
 | [datool-scorers](skills/datool-scorers/SKILL.md) | Develop, preview and version scorers |
 | [datool-datasets](skills/datool-datasets/SKILL.md) | Curate cases, edit items atomically and freeze snapshots |
 | [datool-evaluations](skills/datool-evaluations/SKILL.md) | Execute apps, re-score evidence, compare runs and gate CI |
 | [datool-analytics](skills/datool-analytics/SKILL.md) | Query metrics, preview dashboards, resolve links and export data |
 
-Six JSON starters accompany the focused skills. Replace their example resource IDs, request keys, thresholds and dates before executing them.
+Seven JSON starters accompany the focused skills. Replace their example resource IDs, request keys, thresholds and dates before executing them.
 
 ## Connect to Datool
 
@@ -65,6 +65,8 @@ For interactive use, `npx datool auth login --datool <host>` opens browser organ
 Version 0.1.0 does not include the advertised agent commands. This pack requires the CLI's `agent` commands and the server's `POST /api/agent/:operation` API. If discovery is unavailable, use a deployment/CLI release containing the agent foundations before following these workflows. Doctor and CLI OAuth require server CLI protocol 1. Doctor distinguishes an old server from invalid credentials (401) and valid credentials with insufficient permissions (403). A missing MCP tool can also mean the token lacks the necessary consented scopes.
 
 A completed evaluation reports technical execution; use its quality gate to determine whether it passes. Connected app runs and LLM scorers can incur costs. Each skill documents its permissions, pagination, limits and reproducibility requirements.
+
+For the native prompt SDK and connected prompt experiments, read [managed prompts](skills/datool/references/prompts.md). Standalone fetching needs SDK support and `prompts:read`; connected experiments also need a compatible bridge or HTTP adapter, a server advertising `promptOverrides`, and the evaluation/trace permissions listed in the reference. Base CLI command support alone does not establish native prompt support.
 
 ## Use
 

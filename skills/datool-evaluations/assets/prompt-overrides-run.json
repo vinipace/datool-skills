@@ -1,0 +1,5 @@
+{
+  "mode": "connected", "appId": "extract", "datasetId": "dataset-id",
+  "evaluatorIds": ["scorer-id"], "requestKey": "brand-v2-mini",
+  "promptOverrides": { "brand-extraction": { "version": 2, "model": "openai/gpt-4.1-mini" } }
+}

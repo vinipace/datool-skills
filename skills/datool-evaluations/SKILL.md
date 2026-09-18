@@ -33,3 +33,20 @@ Adapt [assets/gate.json](assets/gate.json) to the user's quality thresholds. gat
 CLI exit codes are 0 for command success, 1 for usage/request failure, 2 for a failed gate, and 3 for a wait timeout. Preserve the gate's exit code in CI. A wait alone is insufficient to gate quality.
 
 Runs currently execute in the persistent server process. Interrupted runs are marked failed on restart, with no automatic resume or cancellation workflow. Limits are 10,000 targets, 100,000 results and 8 MiB of initial evidence; split larger work into explicitly bounded runs.
+
+## Native managed prompts
+
+For connected SDK applications, use top-level `promptOverrides` keyed by
+published slug, with optional `version` and `model`. Adapt
+[the prompt override starter](assets/prompt-overrides-run.json) with observed IDs.
+Keep managed prompt controls out of dataset inputs. Confirm installed SDK/bridge
+support and the live `start_eval_run` schema. The SDK credential additionally
+needs `prompts:read`, `evals:read` and `traces:write`; HTTP handlers must install
+the scope with `withDatoolRequest`.
+
+Datool snapshots all published defaults before execution, including lazy
+discoveries. Inspect `metadata.promptConfig` and `Prompt: <slug>` spans for
+baseline and actual resolutions. Use a new requestKey when overrides change.
+Re-scoring rejects overrides and uses frozen evidence without prompt reads.
+Read [managed prompts](../datool/references/prompts.md) for scope, precedence and
+cache behavior.
