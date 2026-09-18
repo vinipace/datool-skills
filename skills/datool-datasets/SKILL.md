@@ -29,3 +29,7 @@ Freeze a snapshot before a reproducible run and record its id as datasetVersionI
 CLI file synchronization uses a different document: {format: 1, kind: "dataset", key, items: [{key, input, expectedOutput, metadata}]}. Do not feed a bulk-operation input to datasets push. Pull an existing resource first to establish project-bound sync state; omitted push items are retained. Use --replace only when replacing the intended current resource after resolving its conflict.
 
 Report imported/updated/deleted counts and snapshot identity. Separate reviewed labels, automatically generated expectations and unreviewed cases when describing evaluation coverage.
+
+## Reviewed reference corrections
+
+Keep proposed corrections separate from application changes. Use the existing [AI-labelled review workflow](../datool/references/reviews.md) to retain the proposed value, reason, source evidence and run/target IDs. Agent-authored reviews remain AI-labelled; a metadata label is not human verification. After authorized review, update expectedOutput on the existing case with expectedVersionId, preserve its input and identity, attach the review reference in metadata and create a new immutable snapshot. Do not feed expected answers to the application or silently backfill old run evidence. See the [disciplined improvement loop](../datool-evaluations/SKILL.md).
