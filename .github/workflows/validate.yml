@@ -23,7 +23,7 @@ jobs:
           bun-version: 1.3.14
       - run: node scripts/validate.mjs
       - name: Verify advertised commands against the published npm CLI
-        run: node scripts/test-cli-distribution.mjs 0.2.0
+        run: node scripts/test-cli-distribution.mjs 0.3.0
       - name: Verify installer discovery
         env:
           DISABLE_TELEMETRY: "1"

@@ -1,0 +1,10 @@
+{
+  "parentRunId": "observed-run-id",
+  "useRecordedVersions": true,
+  "promptOverrides": {
+    "brand-extraction": {
+      "model": "openai/gpt-4.1-mini"
+    }
+  },
+  "requestKey": "brand-model-controlled-iteration-1"
+}

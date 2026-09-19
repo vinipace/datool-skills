@@ -1,6 +1,6 @@
 # Managed prompts
 
-Confirm the installed `@datool/sdk` exposes `createDatool().prompts` and the live
+Published SDK 0.2.0 supports this API. Confirm the installed `@datool/sdk` exposes `createDatool().prompts` and the live
 `start_eval_run` schema advertises `promptOverrides`. Connected runs also need a
 CLI bridge or HTTP adapter that forwards prompt scopes. Repository versions
 alone do not establish package publication or server deployment. Manage drafts
@@ -45,8 +45,7 @@ mutate different selections.
 Use top-level `promptOverrides`, keyed by observed published slugs, with optional
 `version` and `model`. Adapt [the run starter](../../datool-evaluations/assets/prompt-overrides-run.json)
 with observed app, dataset and scorer IDs and a stable requestKey. These controls
-require `mode: "connected"` and `datasetId`; do not put them into dataset inputs
-or combine them with trace scoring, a single app input or `sourceRunId`.
+use `mode: "connected"` and `datasetId` for a fresh selection. Servers advertising `parentRunId` can instead inherit a prior connected run's frozen cases; do not combine that parent with a new target selection. Keep prompt controls out of dataset inputs and do not combine them with trace scoring, a single app input or `sourceRunId`.
 
 The SDK credential needs `prompts:read`, `evals:read` and `traces:write` and must
 match the connected project/server. Before invocation, Datool freezes all
@@ -60,7 +59,7 @@ are awaited; their failure fails the lookup.
 
 Changed overrides require a new requestKey. Re-scoring copies frozen evidence
 and configuration without app calls or prompt reads and accepts no overrides.
-To test a prompt change, execute the connected dataset again. Keep original
+To test a prompt change, execute the connected dataset again, using parentRunId when supported. Latest versions resolve by default; useRecordedVersions holds recorded prompts and judges, then explicit prompt/model overrides select the change under test. Recorded settings do not restore app code. Keep original
 cases and expected outputs unchanged. The limit is 100 requested overrides and
 a snapshot of at most 10,000 published prompts/512 KiB.
 
