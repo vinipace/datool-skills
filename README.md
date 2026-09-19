@@ -1,6 +1,6 @@
 # Datool skills
 
-Agent skills for investigating AI traces, building scorers, curating datasets, running evaluations and querying Datool analytics.
+Agent skills for investigating AI traces, building scorers, curating datasets, running evaluations, querying Datool analytics and deploying the Datool server.
 
 ## Install
 
@@ -26,7 +26,7 @@ List the available skills before installing:
 npx skills add vinpac/datool-skills --list
 ```
 
-Install an individual workflow with `--skill datool-traces`, for example. Install all six when using the general `datool` router, which links to the focused workflows.
+Install an individual workflow with `--skill datool-traces`, for example. Install the complete pack when using the general `datool` router, which links to the focused workflows.
 
 ## Included skills
 
@@ -38,12 +38,13 @@ Install an individual workflow with `--skill datool-traces`, for example. Instal
 | [datool-datasets](skills/datool-datasets/SKILL.md) | Curate cases, edit items atomically and freeze snapshots |
 | [datool-evaluations](skills/datool-evaluations/SKILL.md) | Execute apps, re-score evidence, compare runs and gate CI |
 | [datool-analytics](skills/datool-analytics/SKILL.md) | Query metrics, preview dashboards, resolve links and export data |
+| [datool-deploy](skills/datool-deploy/SKILL.md) | Manually release a verified server image to Netcup through Dokku |
 
 Ten JSON assets accompany the focused skills. Replace their example resource IDs, request keys, thresholds and dates before executing them.
 
 ## Connect to Datool
 
-Skills contain instructions and examples. They require an existing Datool deployment and either an authenticated MCP connection or a compatible Datool CLI.
+Skills contain instructions and examples. Product workflows require an existing Datool deployment and either an authenticated MCP connection or a compatible Datool CLI. The maintainer-only `datool-deploy` workflow instead requires authorized server access and the build/artifact tools described in its [runbook](skills/datool-deploy/references/manual-release.md).
 
 For MCP, connect your agent to your deployment's `/api/mcp` endpoint and complete its OAuth project selection and permission consent. Use `describe_agent_operations` to inspect available operations.
 
@@ -83,6 +84,7 @@ For example, ask your agent:
 - "Use $datool-traces to investigate the errors in the last 24 hours."
 - "Use $datool-datasets to freeze these regression cases as a snapshot."
 - "Use $datool-evaluations to compare this candidate run against its baseline."
+- "Use $datool-deploy to manually deploy the latest committed main to Netcup."
 
 CLI credentials, MCP configuration and application data are not included in this pack.
 
@@ -90,10 +92,11 @@ CLI credentials, MCP configuration and application data are not included in this
 
 ```sh
 node scripts/validate.mjs
+python3 scripts/test-deploy-artifact.py
 node scripts/test-cli-distribution.mjs 0.3.0
 ```
 
-The validation workflow checks pack structure, local references, JSON assets and installer discovery. It also installs the exact published npm CLI in a clean directory and exercises agent discovery, trace reads, env precedence and diagnostics under Node and Bun against a local HTTP fixture. It does not use workspace CLI source, run your application, or call LLM providers.
+The validation workflow checks pack structure, local references, JSON assets, deployment artifact rejection and installer discovery. It also installs the exact published npm CLI in a clean directory and exercises agent discovery, trace reads, env precedence and diagnostics under Node and Bun against a local HTTP fixture. It does not use workspace CLI source, deploy or run your application, or call LLM providers.
 
 The application repository does not maintain skill copies. Keep complete skill folders together when updating them so examples and links remain available. Check command and permission changes against the compatible Datool server before publishing updates.
 

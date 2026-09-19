@@ -1,0 +1,4 @@
+interface:
+  display_name: "Datool Deployment"
+  short_description: "Deploy a verified Datool image to Netcup with Dokku"
+  default_prompt: "Use $datool-deploy to manually deploy the requested Datool commit to Netcup and verify the live web and worker behavior."

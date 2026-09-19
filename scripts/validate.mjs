@@ -7,6 +7,7 @@ const root = fileURLToPath(new URL("..", import.meta.url));
 const names = [
   "datool", "datool-traces", "datool-scorers",
   "datool-datasets", "datool-evaluations", "datool-analytics",
+  "datool-deploy",
 ];
 const skills = resolve(root, "skills");
 assert.deepEqual((await readdir(skills)).sort(), [...names].sort());

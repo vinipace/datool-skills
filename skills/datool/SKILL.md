@@ -26,6 +26,7 @@ Read the focused skill matching the work:
 - [datool-datasets](../datool-datasets/SKILL.md): curate cases, perform atomic edits and freeze runnable snapshots.
 - [datool-evaluations](../datool-evaluations/SKILL.md): execute apps, re-score frozen evidence, compare runs and gate CI.
 - [datool-analytics](../datool-analytics/SKILL.md): query semantic metrics, preview dashboards, resolve links and export bounded data.
+- [datool-deploy](../datool-deploy/SKILL.md): manually release the Datool server to Netcup through Dokku and verify the deployed image, web and worker. This maintainer workflow uses SSH and Docker rather than the product MCP/CLI.
 
 For a regression investigation, connect the relevant workflows: inspect representative traces, define the failure criterion, curate cases, freeze dataset/scorer versions, execute the evaluation, then compare and gate it. Preserve the user's chosen scope and existing authorization for app execution and model costs.
 
