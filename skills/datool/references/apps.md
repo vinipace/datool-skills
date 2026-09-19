@@ -1,6 +1,10 @@
 # Connect and run apps
 
-Outbound local bridges and `datool apps list|get|register|run` require CLI 0.3.0. The server needs app operations and migration `0023_app_connections.sql`. Existing trace/scorer/dataset/evaluation commands remain compatible with CLI 0.2.0. Verify the actual installed package and deployed server; repository changes alone do not update either.
+## Compatibility
+
+App convenience commands and the original outbound bridge are available in published CLI 0.3.0 against a server with app operations and migration `0023_app_connections.sql`. Verify installed help and deployed capabilities; repository changes alone do not update either.
+
+The resilient bridge introduced in [Datool PR #20](https://github.com/vinpac/datool/pull/20) requires bridge protocol 2 and durable exchange receipts from migration `0033_bridge_exchange_receipts.sql`. Deploy the compatible server and apply its migrations before distributing that CLI. The updated server still accepts older bridge clients with their original timing behavior. The new CLI checks protocol 2 during registration and refuses an incompatible server; app discovery or a successful doctor check does not establish this support. Doctor's CLI protocol 1 check is separate from the bridge protocol. Check the rollout state instead of inferring support from an npm or repository version.
 
 Use `datool apps list` / MCP `list_apps` to discover IDs, input/output schemas, connection types and availability. `datool apps get <id>` / `get_app` returns one definition. `apps:read` is required. HTTP availability means no bridge is needed, not that the endpoint passed a health check.
 
@@ -29,7 +33,17 @@ Run `datool connect` in that project, or `datool connect path/to/datool.config.t
 
 `datool connect` syncs definitions and polls hosted Datool for jobs using authenticated outbound HTTP(S). The CLI executes handlers locally and pushes results back. No inbound laptop port or tunnel is needed. Registration and job exchange require `apps:write`; telemetry ingestion separately needs `traces:write`. Keep the CLI running; use opt-in watching when the installed CLI supports it, or reconnect after code/schema changes. Node handler imports still require Node-compatible modules; compiled JavaScript or direct Bun execution with `bun --no-env-file` can be appropriate for projects using extensionless TypeScript imports.
 
-Jobs are claimed once. Lost exchange responses retry the same request ID; completion posts are idempotent. A crashed/disconnected worker does not cause automatic execution on a replacement worker. Inspect the saved run before explicitly retrying an app with side effects. Bridge calls time out after 60 seconds, support up to 16 concurrent local handlers, and cap the input job (including metadata) and JSON output at 768 KiB each. A timeout cannot forcibly stop arbitrary handler code.
+Bridges support up to 16 concurrent local handlers and cap the input job (including metadata) and JSON output at 768 KiB each.
+
+### Bridge timing and recovery
+
+With protocol 2, jobs are claimed once and lost exchange responses retry the identical request ID and body. The server stores receipts for claims and result acknowledgments. A crashed/disconnected worker does not cause automatic execution on a replacement worker. Inspect the saved run before explicitly retrying an app with side effects.
+
+- Local handler execution, output validation and telemetry flushing share a timeout of at most 60 seconds, or the shorter execution timeout supplied by the server. A timeout cannot forcibly stop arbitrary handler code.
+- Temporary transport failures and throttling retry within a two-minute consecutive interruption budget while retaining pending outputs. Retries honor server timing and stop if the next delay would exceed that budget; they do not extend handler execution. Dispatch and result delivery have separate server allowances, so end-to-end completion can take longer than 60 seconds.
+- `evals wait --timeout` only limits how long the client waits for a run. Continue waiting on the same run ID or inspect its stages; use [evaluation recovery](../../datool-evaluations/SKILL.md#recovery-and-cancellation) when appropriate. An interrupted wait does not authorize a fresh app execution.
+
+After transport retries are exhausted, completion can be uncertain. Inspect saved results and diagnostics before reconnecting or requesting recovery; never treat an unknown outcome as permission to replay the call. Older clients retain the original shorter session/job deadlines and do not provide this recovery window.
 
 ## HTTP webhook
 
