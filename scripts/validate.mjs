@@ -35,6 +35,7 @@ for (const name of names) {
 }
 for (const path of [...files, resolve(root, "README.md")]) {
   const text = await readFile(path, "utf8");
+  assert(!/^(<{7} |={7}$|>{7} )/m.test(text), `Unresolved merge conflict: ${path}`);
   if (path.endsWith(".json")) {
     JSON.parse(text);
     assets++;
@@ -49,5 +50,5 @@ for (const path of [...files, resolve(root, "README.md")]) {
     assert((await lstat(destination)).isFile(), `Broken link: ${link}`);
   }
 }
-assert.equal(assets, 6);
-console.log(`PASS ${names.length} skills, ${assets} JSON starters and all local links`);
+assert.equal(assets, 10);
+console.log(`PASS ${names.length} skills, ${assets} JSON assets and all local links`);
