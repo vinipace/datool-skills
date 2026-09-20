@@ -5,9 +5,9 @@ description: Query Datool semantic metrics, inspect dashboard and saved-view res
 
 # Query and export Datool data
 
-Use `@datool/cli >=0.3.0` for the current convenience commands; older agent clients can use generic `agent call` on a compatible server. Run `datool --version` and `datool doctor --json` first. See the [Datool setup skill](../datool/SKILL.md) for authentication, capability discovery and permissions.
+Use the configured Datool connection. See [connection and discovery](../datool/SKILL.md#connection-and-discovery) when setting up access or checking a required capability.
 
-Use connected MCP or CLI with DATOOL_BASE_URL, DATOOL_PROJECT_ID and DATOOL_API_KEY in the environment. Inspect inputs/scopes with `datool agent tools <operation>`. Metrics need metrics:read; dashboard previews also need dashboards:read. Saved-view data requires views:read, traces:read and evals:read.
+Metrics need metrics:read; dashboard previews also need dashboards:read. Saved-view data requires views:read, traces:read and evals:read.
 
 ```sh
 datool metrics metadata
@@ -27,6 +27,10 @@ preview_dashboard executes stored widget queries in order on a shared semantic s
 
 Use resolve_* operations to obtain canonical workspace URLs. IDs take precedence; supported name lookups are exact and ambiguity fails. Scorers also resolve by slug; dashboards resolve by ID. A returned linkKind of collection explicitly means the URL opens a collection, so do not invent a detail route.
 
-Exports stream NDJSON pages into an atomic output file. Dataset IDs export items; evaluation run IDs export target rows with nested results. Without an ID these commands export collection summaries. Read the stderr manifest: complete: false and nextCursor mean a bounded partial export. Resume with --cursor into a new file and preserve manifests so completeness can be checked. Defaults are 10,000 rows; maximums are 100,000 rows and 256 MiB. Existing files require an intentional --replace.
+## Export completeness and limits
+
+Exports stream NDJSON pages into an atomic output file. Dataset IDs export items; evaluation run IDs export target rows with nested results, saved reasonings and errors. Without an ID these commands export collection summaries. Check the stderr manifest for `complete: true` and `nextCursor: null` before claiming all requested rows were exported. `complete: false` with a nextCursor is a bounded partial export, even when the command exits successfully. Resume with `--cursor` into a new file using the same selection and options; preserve each manifest and combine the parts when assessing coverage.
+
+The default row cap is 10,000; `--max-rows` accepts up to 100,000. Exceeding the 256 MiB byte cap fails the export without publishing its temporary file. Reduce the requested rows per part, then follow continuation cursors. When full spans are unnecessary, compact rows plus selected target reads can reduce export size. Existing files require an intentional `--replace`.
 
 A successful export command is not proof of complete coverage. Live pagination observes a changing collection, not a database-wide immutable snapshot. Use dataset snapshots for frozen cases and report any partial pages or query caps. Keep unknown measures distinct from zero and distinguish technical run completion from evaluation quality in reports.

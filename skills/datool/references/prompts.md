@@ -45,7 +45,7 @@ mutate different selections.
 Use top-level `promptOverrides`, keyed by observed published slugs, with optional
 `version` and `model`. Adapt [the run starter](../../datool-evaluations/assets/prompt-overrides-run.json)
 with observed app, dataset and scorer IDs and a stable requestKey. These controls
-use `mode: "connected"` and `datasetId` for a fresh selection. Servers advertising `parentRunId` can instead inherit a prior connected run's frozen cases; do not combine that parent with a new target selection. Keep prompt controls out of dataset inputs and do not combine them with trace scoring, a single app input or `sourceRunId`.
+use `mode: "connected"`, `datasetId` and the chosen snapshot's `datasetVersionId` for a fresh frozen selection. Omitting datasetVersionId deliberately selects the live dataset. Servers advertising `parentRunId` can instead inherit a prior connected run's frozen cases; do not combine that parent with a new target selection. Keep prompt controls out of dataset inputs and do not combine them with trace scoring, a single app input or `sourceRunId`.
 
 The SDK credential needs `prompts:read`, `evals:read` and `traces:write` and must
 match the connected project/server. Before invocation, Datool freezes all
@@ -59,8 +59,7 @@ are awaited; their failure fails the lookup.
 
 Changed overrides require a new requestKey. Re-scoring copies frozen evidence
 and configuration without app calls or prompt reads and accepts no overrides.
-To test a prompt change, execute the connected dataset again, using parentRunId when supported. Latest versions resolve by default; useRecordedVersions holds recorded prompts and judges, then explicit prompt/model overrides select the change under test. Recorded settings do not restore app code. Keep original
-cases and expected outputs unchanged. The limit is 100 requested overrides and
+For prompt experiments, follow the [evaluation improvement loop](../../datool-evaluations/SKILL.md#disciplined-improvement-loop) to hold cases and unrelated versions constant. The limit is 100 requested overrides and
 a snapshot of at most 10,000 published prompts/512 KiB.
 
 ## Cache behavior

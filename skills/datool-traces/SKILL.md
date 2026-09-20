@@ -5,9 +5,9 @@ description: Investigate Datool trace failures, latency, spans, scores and multi
 
 # Investigate Datool traces
 
-Use `@datool/cli >=0.3.0` for the current convenience commands; older agent clients can use generic `agent call` on a compatible server. Run `datool --version` and `datool doctor --json` first. See the [Datool setup skill](../datool/SKILL.md) for authentication, capability discovery and permissions.
+Use the configured Datool connection. See [connection and discovery](../datool/SKILL.md#connection-and-discovery) when setting up access or checking a required capability.
 
-Use connected MCP tools, or CLI with DATOOL_BASE_URL, DATOOL_PROJECT_ID and DATOOL_API_KEY in the environment. Discover exact inputs with `datool agent tools <operation>`; `datool agent call <operation> --input @input.json` exposes the same operations. These reads require traces:read.
+These reads require traces:read.
 
 Start with a bounded time window, filter and small page:
 
@@ -33,4 +33,4 @@ Use resolve_trace or resolve_session for a canonical project URL. Summarize the 
 
 For agent findings and ratings, use the [AI-labelled review workflow](../datool/references/reviews.md). API-key and OAuth reviews retain authenticated provenance and separate AI completion counts. A completed AI review is not human-verified ground truth and does not update dataset expected outputs.
 
-Promote a specific completed invocation with `promote_spans` instead of manufacturing a compact production trace. It retains native sourceTraceId/sourceSpanId and selected descendant evidence; expectedOutput stays null unless explicitly supplied. See [dataset workflow](../datool-datasets/SKILL.md#production-span-to-evaluation-workflow).
+Promote a specific completed invocation with `promote_spans` instead of manufacturing a compact production trace. It retains native sourceTraceId/sourceSpanId and selected descendant evidence; expectedOutput stays null unless explicitly supplied. See [span promotion and snapshots](../datool-datasets/SKILL.md#promote-production-spans-into-cases).

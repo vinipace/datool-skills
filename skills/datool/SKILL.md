@@ -5,9 +5,13 @@ description: Use Datool MCP, CLI and SDK to connect apps, integrate managed prom
 
 # Datool
 
-Prefer connected Datool MCP tools. App commands and outbound `connect` require `@datool/cli >=0.3.0` and a server supporting app connections; existing trace/scorer/dataset/evaluation commands require at least 0.2.0. Check `datool --version`, then `datool doctor --json` before diagnosing a missing command or failed connection. Inspect the current server contract with `datool agent tools` or `datool agent tools <operation>`. Execute a catalog operation with `datool agent call <operation> --input @input.json`. The equivalent MCP discovery tool is `describe_agent_operations`. A version in the repository does not establish that the package is published, installed or deployed.
+## Connection and discovery
 
-For agents/CI, supply DATOOL_BASE_URL, DATOOL_PROJECT_ID and DATOOL_API_KEY through the environment or an uncommitted project env file. For interactive use, `datool auth login --datool <host>` opens browser organization/project selection and saves tokens in the OS credential store. API keys take precedence. The CLI loads project-root `.env`, then `.env.local`; shell values win. `--env-file <path>` replaces those files; `--no-env` disables loading. Normal `npx datool`/`bunx datool` uses Node; direct Bun execution requires `bun --no-env-file <datool.js> ...`. Keep credentials out of commits, command arguments and reports. Doctor distinguishes incompatible servers, invalid credentials (401), and missing permissions (403, including traces:read).
+Use the user's configured connection; prefer connected MCP tools when both transports are available. Discover MCP operation schemas with `describe_agent_operations`. An MCP-only workflow does not require a local CLI or CLI credentials. Reuse verified project and capability information while the connection and task requirements remain unchanged.
+
+When using the CLI, check `datool --version` and installed help for the required commands. Run `datool doctor --json` during CLI setup or when diagnosing authentication, compatibility or connection failures. Inspect server schemas with `datool agent tools <operation>` and execute catalog operations with `datool agent call <operation> --input @input.json`. Base agent commands require CLI 0.2.0; the base convenience examples target the tested published CLI 0.3.0. Newer aliases and bridge protocols require separate capability checks; see [app compatibility](references/apps.md#compatibility). A repository version does not establish package publication, installation or server deployment.
+
+For CLI agents/CI, supply DATOOL_BASE_URL, DATOOL_PROJECT_ID and DATOOL_API_KEY through the environment or an uncommitted project env file. For interactive use, `datool auth login --datool <host>` opens browser organization/project selection and saves tokens in the OS credential store. API keys take precedence. The CLI loads project-root `.env`, then `.env.local`; shell values win. `--env-file <path>` replaces those files; `--no-env` disables loading. Normal `npx datool`/`bunx datool` uses Node; direct Bun execution requires `bun --no-env-file <datool.js> ...`. Keep credentials out of commits, command arguments and reports. Doctor distinguishes incompatible servers, invalid credentials (401), and missing permissions (403, including traces:read).
 
 MCP tokens are bound to a project and consented scopes. Discovery lists operation contracts; it does not prove the current credential can execute them. Missing tools can mean insufficient consent, while an unknown operation can mean the deployed server predates it. Doctor checks compatibility, authentication and a minimal trace read; it does not check every evaluation scope, app or provider. Use returned IDs and schemas, then verify the operations needed for the user's flow.
 
@@ -19,10 +23,12 @@ For evidence review and findings, read [AI-labelled reviews](references/reviews.
 
 For published prompt fetching, rendering, invocation-scoped overrides and connected prompt experiments, read [managed prompts](references/prompts.md). Confirm installed SDK and deployed server support before using the native API.
 
-Read the focused skill matching the work:
+## Workflow ownership
+
+Read the focused skill matching the work; follow its handoff links when the task reaches another workflow:
 
 - [datool-traces](../datool-traces/SKILL.md): investigate failures, latency and session behavior using recorded evidence.
-- [datool-scorers](../datool-scorers/SKILL.md): develop, preview and version JavaScript, Python or LLM scorers.
+- [datool-scorers](../datool-scorers/SKILL.md): develop, preview, calibrate and version JavaScript, Python or LLM scorers.
 - [datool-datasets](../datool-datasets/SKILL.md): curate cases, perform atomic edits and freeze runnable snapshots.
 - [datool-evaluations](../datool-evaluations/SKILL.md): execute apps, re-score frozen evidence, compare runs and gate CI.
 - [datool-analytics](../datool-analytics/SKILL.md): query semantic metrics, preview dashboards, resolve links and export bounded data.
@@ -31,4 +37,4 @@ For a regression investigation, connect the relevant workflows: inspect represen
 
 Record the project, resource IDs, versions, inspected population and evidence limitations. A completed run means execution finished; quality requires the gate and case-level evidence. Source code, local tests and production behavior are distinct evidence.
 
-For production invocation evaluation, follow the [span-to-case workflow](../datool-datasets/SKILL.md#production-span-to-evaluation-workflow). Use native span promotion, explicit references, runtime readiness and calibration, then return a saved evaluation URL promptly. Preview is not a saved evaluation.
+For production invocation evaluation, start with [span promotion and snapshots](../datool-datasets/SKILL.md#promote-production-spans-into-cases), then follow its scorer and evaluation handoffs.
