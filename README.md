@@ -39,7 +39,7 @@ Install an individual workflow with `--skill datool-traces`, for example. Instal
 | [datool-evaluations](skills/datool-evaluations/SKILL.md) | Execute apps, re-score evidence, compare runs and gate CI |
 | [datool-analytics](skills/datool-analytics/SKILL.md) | Query metrics, preview dashboards, resolve links and export data |
 
-Ten JSON assets accompany the focused skills. Replace their example resource IDs, request keys, thresholds and dates before executing them. Fresh connected-run starters select a dataset snapshot explicitly through datasetVersionId; replace it with the snapshot returned for the chosen dataset. Parent/source-run starters inherit cases from the observed run.
+Thirteen JSON assets accompany the focused skills. Replace their example resource IDs, request keys, thresholds and dates before executing them. Fresh connected-run starters select a dataset snapshot explicitly through datasetVersionId; replace it with the snapshot returned for the chosen dataset. Parent/source-run starters inherit cases from the observed run.
 
 ## Connect to Datool
 
