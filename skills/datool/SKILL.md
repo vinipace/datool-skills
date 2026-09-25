@@ -1,13 +1,15 @@
 ---
 name: datool
-description: Use Datool MCP, CLI and SDK to connect apps, integrate managed prompts, debug AI workflows, submit AI-labelled reviews, and route evaluation work.
+description: Use Datool MCP, CLI, SDK and browser WebMCP to connect apps, integrate prompts, debug AI workflows, review evidence, run evaluations and create React trace views.
 ---
 
 # Datool
 
 ## Connection and discovery
 
-Use the user's configured connection; prefer connected MCP tools when both transports are available. Discover MCP operation schemas with `describe_agent_operations`. An MCP-only workflow does not require a local CLI or CLI credentials. Reuse verified project and capability information while the connection and task requirements remain unchanged.
+For custom React trace visualizations, read [browser-local trace views](references/trace-views.md) and use the Datool page's WebMCP tools. This is separate from server MCP and CLI operations.
+
+For server operations, use the user's configured connection; prefer connected MCP tools when both transports are available. Discover MCP operation schemas with `describe_agent_operations`. An MCP-only workflow does not require a local CLI or CLI credentials. Reuse verified project and capability information while the connection and task requirements remain unchanged.
 
 When using the CLI, check `datool --version` and installed help for the required commands. Run `datool doctor --json` during CLI setup or when diagnosing authentication, compatibility or connection failures. Inspect server schemas with `datool agent tools <operation>` and execute catalog operations with `datool agent call <operation> --input @input.json`. Base agent commands require CLI 0.2.0; the base convenience examples target the tested published CLI 0.3.0. Newer aliases and bridge protocols require separate capability checks; see [app compatibility](references/apps.md#compatibility). A repository version does not establish package publication, installation or server deployment.
 

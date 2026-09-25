@@ -1,13 +1,15 @@
 ---
 name: datool-traces
-description: Investigate Datool trace failures, latency, spans, scores and multi-step sessions using recorded execution evidence through MCP or CLI.
+description: Investigate Datool traces, spans, scores and sessions through MCP or CLI, and visualize recorded trace results with browser WebMCP.
 ---
 
 # Investigate Datool traces
 
 Use the configured Datool connection. See [connection and discovery](../datool/SKILL.md#connection-and-discovery) when setting up access or checking a required capability.
 
-These reads require traces:read.
+To create or edit a custom result view inside Datool, follow [browser-local React trace views](../datool/references/trace-views.md). Discover the browser's supported components and data modes before generating code.
+
+The server reads below require traces:read.
 
 Start with a bounded time window, filter and small page:
 
