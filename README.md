@@ -43,7 +43,7 @@ Thirteen JSON assets accompany the focused skills. Replace their example resourc
 
 ## Connect to Datool
 
-Skills contain instructions and examples. They require an existing Datool deployment and either an authenticated MCP connection or a compatible Datool CLI.
+Skills contain instructions and examples. Server workflows require an existing Datool deployment and either an authenticated MCP connection or a compatible Datool CLI. [Browser-local React trace views](skills/datool/references/trace-views.md) use the authenticated Datool page's WebMCP tools instead; discover the live runtime capabilities before using shared components or Tailwind.
 
 For MCP, connect your agent to your deployment's `/api/mcp` endpoint and complete its OAuth project selection and permission consent. Use `describe_agent_operations` to inspect available operations. MCP-only workflows require no CLI installation or CLI doctor checks. Reuse verified connection information across skill handoffs; see [connection and discovery](skills/datool/SKILL.md#connection-and-discovery) for when to check again.
 
